@@ -12,7 +12,7 @@ export function SiteHeader() {
 						className={`font-display text-lg font-semibold tracking-tight text-ink hover:text-accent-ink ${touch} ${focusRing}`}
 						aria-label={`${site.name}, writing home`}
 					>
-						f.pt
+						blog.f.pt
 					</Link>
 				</div>
 			</div>
