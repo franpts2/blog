@@ -4,7 +4,7 @@ import { site } from '~/lib/site';
 /** Resource route: /sitemap.xml */
 export async function loader() {
 	const posts = getAllPosts();
-	const staticPaths = ['/', '/writing'];
+	const staticPaths = ['/'];
 	const postPaths = posts.map((post) => `/writing/${post.slug}`);
 
 	const urls = [...staticPaths, ...postPaths]

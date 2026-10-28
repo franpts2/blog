@@ -15,8 +15,8 @@ export const meta: MetaFunction = () => [
 	{ property: 'og:title', content: `Writing — ${site.name}` },
 	{ property: 'og:description', content: 'Every essay, newest first.' },
 	{ property: 'og:type', content: 'website' },
-	{ property: 'og:url', content: `${site.url}/writing` },
-	{ tagName: 'link', rel: 'canonical', href: `${site.url}/writing` }
+	{ property: 'og:url', content: site.url },
+	{ tagName: 'link', rel: 'canonical', href: site.url }
 ];
 
 export default function Writing({ loaderData }: { loaderData: ReturnType<typeof loader> }) {

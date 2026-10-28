@@ -19,7 +19,7 @@ export function ErrorState({ label, title, message }: ErrorStateProps) {
 				<AccentDot />
 			</h1>
 			<p className={`${bodyType} mt-5`}>{message}</p>
-			<PillLink to="/writing" className="mt-8 self-start">
+			<PillLink to="/" className="mt-8 self-start">
 				Back to writing
 			</PillLink>
 		</div>
