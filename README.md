@@ -6,16 +6,16 @@ the rewrites they force, and the parts of shipping nobody blogs about.
 Built with React Router, Vite, Tailwind CSS, and Cloudflare Workers. No CMS: posts
 are Markdown files in this repo, rendered at build time.
 
-See [PLAN.md](./PLAN.md) for the architecture and the roadmap (including the
-browser editor planned for Phase 2).
+See [DESIGN.md](./DESIGN.md) for the visual identity and [PLAN.md](./PLAN.md) for
+the architecture and roadmap (including the browser editor planned for Phase 2).
 
 ## Stack
 
 - **React Router** (framework mode) — routing, loaders, prerendering
 - **Vite** — build, and `import.meta.glob` for inlining Markdown
-- **Tailwind CSS v4** — utilities + hand-written prose styles
+- **Tailwind CSS v4** — utilities, shared recipes, and arbitrary variants for Markdown prose
 - **unified / remark / rehype** — Markdown → HTML with syntax highlighting
-- **Cloudflare Workers** — static assets with a Worker for RSS, the sitemap, and later APIs
+- **Cloudflare Workers** — static assets with a Worker for the sitemap and later APIs
 
 ## Development
 
@@ -36,7 +36,7 @@ npm run deploy     # build + wrangler deploy
 ---
 title: 'The constraint you find after you announce'
 date: '2026-11-04'
-summary: 'One sentence for the list, RSS, and social previews.'
+summary: 'One sentence for the list and social previews.'
 tags: ['shipping']
 draft: false
 ---
@@ -67,5 +67,5 @@ with build command `npm run build`.
 ## Notes
 
 - Canonical URLs have no trailing slash (`assets.html_handling: "drop-trailing-slash"`).
-- Published pages are prerendered; `/rss.xml` and `/sitemap.xml` are rendered by the Worker.
+- Published pages are prerendered; `/sitemap.xml` is rendered by the Worker.
 - The Markdown HTML is trusted local content, so it is injected with `dangerouslySetInnerHTML`.

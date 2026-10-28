@@ -1,35 +1,31 @@
-import { NavLink } from 'react-router';
+import { Link, NavLink } from 'react-router';
+import { containerWide, focusRing, navLink, touch } from '~/lib/styles';
+import { site } from '~/lib/site';
 
-const links = [
-	{ to: '/writing', label: 'Writing' },
-	{ to: '/about', label: 'About' }
-];
+const links = [{ to: '/writing', label: 'Writing' }];
 
 export function SiteHeader() {
 	return (
-		<header className="mx-auto flex w-full max-w-2xl items-baseline justify-between gap-6 px-6 pt-10 pb-10 sm:pt-14">
-			<NavLink
-				to="/"
-				className="text-[11px] font-semibold uppercase tracking-[0.22em] text-ink hover:text-accent"
-			>
-				Francisca Portugal
-			</NavLink>
-			<nav className="flex items-baseline gap-5 text-sm text-muted">
-				{links.map((link) => (
-					<NavLink
-						key={link.to}
-						to={link.to}
-						className={({ isActive }) =>
-							isActive ? 'text-ink underline underline-offset-4' : 'hover:text-ink'
-						}
+		<header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-paper/90 pt-[env(safe-area-inset-top,0px)] backdrop-blur-md print:hidden">
+			<div className={containerWide}>
+				<nav className="flex h-16 items-center justify-between gap-4 md:h-20" aria-label="Primary">
+					<Link
+						to="/"
+						className={`font-display text-lg font-semibold tracking-tight text-ink hover:text-accent-ink ${touch} ${focusRing}`}
+						aria-label={`${site.name}, writing home`}
 					>
-						{link.label}
-					</NavLink>
-				))}
-				<a href="/rss.xml" className="hover:text-ink">
-					RSS
-				</a>
-			</nav>
+						f.pt
+					</Link>
+
+					<div className="flex items-center gap-4 sm:gap-7">
+						{links.map((link) => (
+							<NavLink key={link.to} to={link.to} className={navLink}>
+								{link.label}
+							</NavLink>
+						))}
+					</div>
+				</nav>
+			</div>
 		</header>
 	);
 }

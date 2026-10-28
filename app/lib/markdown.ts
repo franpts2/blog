@@ -1,3 +1,13 @@
+import bash from 'highlight.js/lib/languages/bash';
+import css from 'highlight.js/lib/languages/css';
+import diff from 'highlight.js/lib/languages/diff';
+import javascript from 'highlight.js/lib/languages/javascript';
+import json from 'highlight.js/lib/languages/json';
+import markdown from 'highlight.js/lib/languages/markdown';
+import sql from 'highlight.js/lib/languages/sql';
+import typescript from 'highlight.js/lib/languages/typescript';
+import xml from 'highlight.js/lib/languages/xml';
+import yaml from 'highlight.js/lib/languages/yaml';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
 import rehypeStringify from 'rehype-stringify';
@@ -14,7 +24,7 @@ import { unified } from 'unified';
  * then serialise it. It runs at build time (prerender) and, for posts that
  * are not prerendered, in the Worker.
  */
-export async function markdownToHtml(markdown: string): Promise<string> {
+export async function markdownToHtml(source: string): Promise<string> {
 	const file = await unified()
 		.use(remarkParse)
 		.use(remarkGfm)
@@ -23,11 +33,30 @@ export async function markdownToHtml(markdown: string): Promise<string> {
 		.use(rehypeHighlight, {
 			// Only the languages this blog actually writes. Keeping this list
 			// short keeps the Worker bundle small.
-			languages: {},
+			languages: {
+				bash,
+				css,
+				diff,
+				javascript,
+				json,
+				markdown,
+				sql,
+				typescript,
+				xml,
+				yaml
+			},
+			aliases: {
+				bash: ['sh', 'shell', 'zsh'],
+				javascript: ['js', 'jsx'],
+				markdown: ['md'],
+				typescript: ['ts', 'tsx'],
+				xml: ['html', 'svg'],
+				yaml: ['yml']
+			},
 			detect: false
 		})
 		.use(rehypeStringify)
-		.process(markdown);
+		.process(source);
 
 	return String(file);
 }
