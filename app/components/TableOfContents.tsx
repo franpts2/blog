@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import type { MouseEvent } from 'react';
 import type { Heading } from '~/lib/markdown';
 import { focusRing, labelType, touch } from '~/lib/styles';
 
@@ -49,6 +50,24 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
 
 	if (headings.length === 0) return null;
 
+	/**
+	 * Scroll manually instead of letting the browser follow the hash. A plain
+	 * fragment link updates the URL but the router's scroll restoration puts
+	 * the page back where it was, so the first click appears to do nothing.
+	 * replaceState keeps the URL shareable without adding a history entry.
+	 */
+	const handleClick = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
+		if (event.defaultPrevented || event.button !== 0) return;
+		if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+		const target = document.getElementById(id);
+		if (!target) return;
+
+		event.preventDefault();
+		target.scrollIntoView({ block: 'start' });
+		window.history.replaceState(window.history.state, '', `#${id}`);
+	};
+
 	return (
 		<aside className="absolute inset-y-0 left-[calc(50%_+_22rem_+_2rem)] hidden w-56 xl:block">
 			<div className="h-full pt-[clamp(2rem,5vw,4rem)]">
@@ -62,6 +81,7 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
 								<li key={heading.id}>
 									<a
 										href={`#${heading.id}`}
+										onClick={(event) => handleClick(event, heading.id)}
 										aria-current={active ? 'location' : undefined}
 										className={`-ml-px block border-l-2 py-2 pr-3 text-[0.95rem] leading-[1.45] transition-colors duration-150 motion-reduce:transition-none ${
 											heading.level === 3 ? 'pl-8' : 'pl-5'
