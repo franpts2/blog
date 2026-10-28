@@ -1,23 +1,43 @@
+import {
+	containerWide,
+	focusRing,
+	labelType,
+	linkUnderline,
+	touch
+} from '~/lib/styles';
 import { site } from '~/lib/site';
 
 export function SiteFooter() {
+	const year = new Date().getFullYear();
+	const footerLink = `${linkUnderline} ${touch} ${focusRing} hover:text-accent-ink`;
+
 	return (
-		<footer className="mx-auto mt-20 w-full max-w-2xl border-t border-line px-6 py-8 text-xs text-faint">
-			<div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-				<p>
-					© {new Date().getFullYear()} {site.author.name}
+		<footer className="border-t border-line py-8 pb-[calc(2rem_+_env(safe-area-inset-bottom,0px))] print:hidden">
+			<div className={`${containerWide} flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between`}>
+				<p className="text-sm text-muted">
+					© {year} {site.author.name}
 				</p>
-				<div className="flex gap-4">
-					<a href={site.links.home} className="hover:text-ink">
+
+				<nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted" aria-label="Elsewhere">
+					<a
+						href={site.links.home}
+						className={footerLink}
+						target="_blank"
+						rel="noopener noreferrer"
+					>
 						franciscapt.dev
 					</a>
-					<a href={site.links.github} className="hover:text-ink">
-						GitHub
+					<a
+						href={site.links.github}
+						className={footerLink}
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						github
 					</a>
-					<a href="/rss.xml" className="hover:text-ink">
-						RSS
-					</a>
-				</div>
+				</nav>
+
+				<p className={labelType}>Have a great day! :D</p>
 			</div>
 		</footer>
 	);

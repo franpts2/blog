@@ -33,7 +33,7 @@ function publishedPostSlugs(): string[] {
 
 export default {
 	// Render on the server, but emit static HTML for every page we know about.
-	// The Worker stays around for RSS, the sitemap, and 404s.
+	// The Worker stays around for the sitemap and 404s.
 	ssr: true,
-	prerender: () => ['/', '/writing', '/about', ...publishedPostSlugs().map((slug) => `/writing/${slug}`)]
+	prerender: () => ['/', '/writing', ...publishedPostSlugs().map((slug) => `/writing/${slug}`)]
 } satisfies Config;

@@ -2,7 +2,7 @@
 
 A personal blog at **blog.franciscapt.dev**. Built to be understood, not just to
 work: the point of v1 is to learn how a blog is actually assembled — content
-files, a build-time pipeline, routes, feeds, and prerendering — before adding a
+files, a build-time pipeline, routes, and prerendering — before adding a
 backend.
 
 ---
@@ -11,7 +11,7 @@ backend.
 
 1. Publish essays from Markdown files in the repo, with zero ceremony.
 2. Own the whole pipeline: no generator, no CMS, no hidden magic.
-3. Serve fast, static HTML with correct metadata (SEO, Open Graph, RSS).
+3. Serve fast, static HTML with correct metadata (SEO, Open Graph).
 4. Stay small enough that a future version can add browser editing without a rewrite.
 
 ## Non-goals (for v1)
@@ -29,9 +29,9 @@ backend.
 |---|---|---|
 | Framework | **React Router (framework mode)** | Real routing, loaders, SSR/prerender, no magic. |
 | Build | **Vite** | Fast, and its `import.meta.glob` is the content pipeline. |
-| Styling | **Tailwind CSS v4** | Utility CSS with a small token layer; prose styles are hand-written. |
+| Styling | **Tailwind CSS v4** | Utility CSS with a small token layer; prose uses Tailwind arbitrary variants. |
 | Markdown | **unified / remark / rehype** | Composable AST pipeline; the blog "engine" is ~30 lines. |
-| Deploy | **Cloudflare Workers** (static assets + Worker) | Prerendered HTML served from the edge; one Worker for RSS/404s and future APIs. |
+| Deploy | **Cloudflare Workers** (static assets + Worker) | Prerendered HTML served from the edge; one Worker for the sitemap/404s and future APIs. |
 
 No database in v1. Posts are files.
 
@@ -52,8 +52,6 @@ app/lib/posts.ts                     ← manifest: meta, summary, tags, reading 
       ├── /                    list of essays
       ├── /writing             all essays
       ├── /writing/:slug       one essay (prerendered)
-      ├── /about               about page
-      ├── /rss.xml             resource route (Worker)
       └── /sitemap.xml         resource route (Worker)
       │
       ▼
@@ -71,7 +69,7 @@ content, and adding a post is adding a file.
 
 - `ssr: true` — the app has a real server.
 - All known pages are **prerendered** at build time to `build/client/.../index.html`.
-- The Worker handles `/rss.xml`, `/sitemap.xml`, 404s, and anything added later.
+- The Worker handles `/sitemap.xml`, 404s, and anything added later.
 - `assets.html_handling: "drop-trailing-slash"` — canonical URLs have no trailing
   slash (`/writing/hello-world`), matching internal links, `<link rel="canonical">`,
   and the sitemap.
@@ -82,7 +80,7 @@ content, and adding a post is adding a file.
 ---
 title: 'The constraint you find after you announce'
 date: '2026-11-04'          # YYYY-MM-DD, used for ordering
-summary: 'One sentence for the list, RSS, and social previews.'
+summary: 'One sentence for the list and social previews.'
 tags: ['shipping']
 draft: false                # drafts are visible in dev, skipped in prod
 ---
@@ -95,10 +93,10 @@ The filename is the slug: `the-constraint-you-find-after-you-announce.md`.
 ## What v1 includes (shipped in the first commit)
 
 - [x] React Router + Vite + TypeScript scaffold on Cloudflare Workers
-- [x] Tailwind v4 with semantic color tokens and light/dark via system preference
+- [x] Tailwind v4 with semantic color tokens and a light-only visual identity
 - [x] Markdown pipeline: frontmatter, GFM, heading ids, syntax highlighting
-- [x] Post list, post page, about page, 404
-- [x] RSS and sitemap resource routes
+- [x] Post list, post page, 404
+- [x] Sitemap resource route
 - [x] Prerendering of every published page
 - [x] Reading time, drafts, canonical + Open Graph metadata
 - [x] `blog.franciscapt.dev` custom domain configured in `wrangler.jsonc`
@@ -256,7 +254,7 @@ shape is visible, often weeks later.
 ## Done means
 
 - [ ] Three real essays published.
-- [ ] RSS validates.
+- [ ] Sitemap validates.
 - [ ] Lighthouse ≥ 95 on mobile for a post page.
 - [ ] Writing a post takes one file and one push.
 - [ ] Then, and only then, Phase 2.
