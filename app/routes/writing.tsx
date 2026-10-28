@@ -32,15 +32,15 @@ export default function Writing({ loaderData }: { loaderData: ReturnType<typeof 
 					Writing
 					<AccentDot />
 				</h1>
-				<div className="mt-5 flex max-w-[46rem] flex-wrap items-baseline justify-between gap-3">
+				<div className="mt-5 flex flex-wrap items-baseline justify-between gap-3">
 					<p className={bodyType}>Essays and notes, newest first.</p>
-					<p className={labelType}>
+					<p className={`${labelType} ml-auto text-right`}>
 						{posts.length} {posts.length === 1 ? 'essay' : 'essays'}
 					</p>
 				</div>
 			</header>
 
-			<PostList posts={posts} showIndex />
+			<PostList posts={posts} />
 		</div>
 	);
 }
