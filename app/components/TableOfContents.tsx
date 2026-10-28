@@ -24,9 +24,20 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
 			const offset = 120;
 			let next = elements[0].id;
 
-			for (const element of elements) {
-				if (element.getBoundingClientRect().top <= offset) next = element.id;
-				else break;
+			const scrollable = document.documentElement.scrollHeight > window.innerHeight + 1;
+			const atBottom =
+				scrollable &&
+				window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 1;
+
+			if (atBottom) {
+				// The last heading may never cross the offset when the page runs
+				// out of room to scroll, so select it explicitly at the bottom.
+				next = elements[elements.length - 1].id;
+			} else {
+				for (const element of elements) {
+					if (element.getBoundingClientRect().top <= offset) next = element.id;
+					else break;
+				}
 			}
 
 			setActiveId(next);
