@@ -32,15 +32,6 @@ export const touch = 'touch-manipulation';
 export const linkUnderline =
 	'relative inline-block after:absolute after:inset-x-0 after:-bottom-[0.1em] after:h-[1.5px] after:origin-right after:scale-x-0 after:bg-current after:transition-transform after:duration-200 after:ease-out-expo hover:after:origin-left hover:after:scale-x-100 motion-reduce:after:transition-none pointer-coarse:underline pointer-coarse:decoration-line pointer-coarse:underline-offset-[3px]';
 
-export const navLink = [
-	'relative inline-flex min-h-11 touch-manipulation items-center font-mono text-[0.7rem] font-medium uppercase leading-[1.4] tracking-[0.08em] text-muted transition-colors duration-150 ease-out-expo',
-	'after:absolute after:inset-x-0 after:bottom-[0.45rem] after:h-[1.5px] after:origin-right after:scale-x-0 after:bg-accent after:transition-transform after:duration-200 after:ease-out-expo',
-	'hover:text-accent-ink hover:after:origin-left hover:after:scale-x-100',
-	'aria-[current=page]:text-ink aria-[current=page]:after:origin-left aria-[current=page]:after:scale-x-100',
-	'motion-reduce:transition-none motion-reduce:after:transition-none',
-	focusRing,
-].join(' ');
-
 /**
  * Markdown output cannot receive utilities, so the wrapper styles its
  * descendants with arbitrary variants. Syntax tokens get the same treatment.
