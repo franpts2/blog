@@ -1,5 +1,6 @@
 import type { LoaderFunctionArgs, MetaFunction } from 'react-router';
 import { PillLink } from '~/components/PillLink';
+import { TableOfContents } from '~/components/TableOfContents';
 import {
 	bodyType,
 	containerProse,
@@ -37,46 +38,51 @@ export const meta: MetaFunction<typeof loader> = ({ loaderData }) => {
 
 export default function Post({ loaderData }: { loaderData: Awaited<ReturnType<typeof loader>> }) {
 	const { post } = loaderData;
+	const hasHeadings = post.headings.length > 0;
 
 	return (
-		<article className={containerProse}>
-			<header className="pt-[clamp(2rem,5vw,4rem)]">
-				<h1
-					className={`${displayType} text-[clamp(2.25rem,6vw,4rem)] leading-[0.98]`}
-				>
-					{post.title}
-				</h1>
-				{post.summary && <p className={`${bodyType} mt-5 max-w-[40rem]`}>{post.summary}</p>}
+		<div className="relative">
+			<article className={`${containerProse} min-w-0`}>
+				<header className="pt-[clamp(2rem,5vw,4rem)]">
+					<h1
+						className={`${displayType} text-[clamp(2.25rem,6vw,4rem)] leading-[0.98]`}
+					>
+						{post.title}
+					</h1>
+					{post.summary && <p className={`${bodyType} mt-5 max-w-[40rem]`}>{post.summary}</p>}
 
-				<div className={`mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-line pt-4 ${labelType}`}>
-					<time dateTime={post.date}>{formatDate(post.date)}</time>
-					<span aria-hidden="true">·</span>
-					<span>{post.readingTime} min read</span>
-					{post.tags.length > 0 && (
-						<>
-							<span aria-hidden="true">·</span>
-							<span>{post.tags.join(' · ')}</span>
-						</>
-					)}
-					{post.draft && (
-						<span className="inline-block whitespace-nowrap rounded-full border border-line bg-accent-soft px-1.5 py-0.5 font-mono text-[0.6rem] font-medium uppercase leading-[1.4] tracking-[0.08em] text-accent-ink">
-							Draft
-						</span>
-					)}
-				</div>
-			</header>
+					<div className={`mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-line pt-4 ${labelType}`}>
+						<time dateTime={post.date}>{formatDate(post.date)}</time>
+						<span aria-hidden="true">·</span>
+						<span>{post.readingTime} min read</span>
+						{post.tags.length > 0 && (
+							<>
+								<span aria-hidden="true">·</span>
+								<span>{post.tags.join(' · ')}</span>
+							</>
+						)}
+						{post.draft && (
+							<span className="inline-block whitespace-nowrap rounded-full border border-line bg-accent-soft px-1.5 py-0.5 font-mono text-[0.6rem] font-medium uppercase leading-[1.4] tracking-[0.08em] text-accent-ink">
+								Draft
+							</span>
+						)}
+					</div>
+				</header>
 
-			{/* The HTML comes from trusted Markdown committed to this repo. */}
-			<div className={`${proseClass} mt-12`} dangerouslySetInnerHTML={{ __html: post.html }} />
+				{/* The HTML comes from trusted Markdown committed to this repo. */}
+				<div className={`${proseClass} mt-12`} dangerouslySetInnerHTML={{ __html: post.html }} />
 
-			<footer className="mt-[clamp(3rem,8vw,5rem)] border-t border-line pt-8 pb-[clamp(4rem,8vw,7rem)] print:hidden">
-				<div className="flex items-center justify-between gap-4">
-					<p className={labelType}>Thanks for reading.</p>
-					<PillLink to="/writing" variant="outline" className="shrink-0">
-						More writing
-					</PillLink>
-				</div>
-			</footer>
-		</article>
+				<footer className="mt-[clamp(3rem,8vw,5rem)] border-t border-line pt-8 pb-[clamp(4rem,8vw,7rem)] print:hidden">
+					<div className="flex items-center justify-between gap-4">
+						<p className={labelType}>Thanks for reading.</p>
+						<PillLink to="/writing" variant="outline" className="shrink-0">
+							More writing
+						</PillLink>
+					</div>
+				</footer>
+			</article>
+
+			{hasHeadings && <TableOfContents headings={post.headings} />}
+		</div>
 	);
 }

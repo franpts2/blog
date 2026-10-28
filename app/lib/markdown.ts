@@ -61,6 +61,48 @@ export async function markdownToHtml(source: string): Promise<string> {
 	return String(file);
 }
 
+export type Heading = {
+	id: string;
+	text: string;
+	level: 2 | 3;
+};
+
+const HEADING_PATTERN = /<h([23])\b[^>]*\bid="([^"]+)"[^>]*>([\s\S]*?)<\/h\1>/g;
+
+function headingText(html: string): string {
+	return html
+		.replace(/<[^>]+>/g, '')
+		.replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCodePoint(parseInt(hex, 16)))
+		.replace(/&#(\d+);/g, (_, dec) => String.fromCodePoint(Number(dec)))
+		.replace(/&nbsp;/g, ' ')
+		.replace(/&amp;/g, '&')
+		.replace(/&lt;/g, '<')
+		.replace(/&gt;/g, '>')
+		.replace(/&quot;/g, '"')
+		.replace(/&#39;/g, "'")
+		.replace(/\s+/g, ' ')
+		.trim();
+}
+
+/** Pull the h2/h3 outline out of rendered HTML for the table of contents. */
+export function extractHeadings(html: string): Heading[] {
+	const headings: Heading[] = [];
+
+	for (const match of html.matchAll(HEADING_PATTERN)) {
+		const id = match[2];
+		const text = headingText(match[3] ?? '');
+		if (!id || !text) continue;
+
+		headings.push({
+			id,
+			text,
+			level: Number(match[1]) as Heading['level']
+		});
+	}
+
+	return headings;
+}
+
 /** ~220 words per minute, rounded up. Good enough for a reading estimate. */
 export function readingTime(markdown: string): number {
 	const words = markdown.trim().split(/\s+/).filter(Boolean).length;

@@ -269,6 +269,12 @@ text, hover accent border and `accent-ink` text). `min-height: 2.75rem`,
 `transition: color, background-color, border-color, scale 150ms`;
 `active:scale-[0.97]`.
 
+**On this page.** At `xl` and above, a sticky table of contents sits in the
+right gutter, 14rem wide and 2rem from the article edge. The article remains
+centered. `On this page` uses the label style; the list has a hairline rail and
+the active item gets a 2px accent border with `accent-ink` text. Hidden below
+`xl`; the heading nearest the top of the viewport is current.
+
 **Post rows.** Hairline between rows; whole row is a link. Desktop grid:
 index `01` in `t-label`, date in `t-label`, content, arrow. Title in Clash
 Display 600; summary in `t-body`; tags in `t-label` separated by `·`. Hover:
@@ -282,9 +288,9 @@ the display scale and an accent period; section labels stay small.
 **Hairlines.** 1px `--color-line`; top border for sections, bottom border for
 rows. No shadows, no cards. The page is paper; rules are ink.
 
-**Accent period.** `.accent-dot::after { content: "."; color: var(--color-accent); }`
-Use it on page titles and section heads that do not already end in punctuation.
-Do not force it onto authored article titles.
+**Accent period.** `AccentDot` renders a `<span className="text-accent">.</span>`
+after display headings. Use it on page titles and section heads that do not
+already end in punctuation. Do not force it onto authored article titles.
 
 ### 4.5 Prose
 
@@ -348,8 +354,8 @@ and hand-written, like the current file.
 - Latest section: label `Latest`, action `All writing →`.
 - Writing: label `Archive`, title `Writing.`, description "Essays and notes,
   newest first.", count `3 essays`.
-- Post: title first; meta `date · reading time · tags`; footer "Thanks for
-  reading." + `More writing` pill.
+- Post: title first; meta `date · reading time · tags`; an `On this page` rail
+  at `xl`; footer "Thanks for reading." + `More writing` pill.
 - 404: label `404`, title `This page went missing.`, body "The link may be old,
   or the essay moved.", pill `Back to writing`.
 - Footer: `© 2026 Francisca Portugal` · links · `Have a great day! :D`.
@@ -393,15 +399,17 @@ list and between rows.
 ### Post
 
 ```
-container-prose
-├── header
-│   ├── display h1: authored title
-│   ├── t-body summary
-│   └── hairline row: date · reading time · tags
-├── .prose
-└── footer
-    ├── hairline
-    └── row: t-label Thanks for reading. · outline pill More writing
+relative wrapper
+├── article (44rem, centered)
+│   ├── header
+│   │   ├── display h1: authored title
+│   │   ├── t-body summary
+│   │   └── hairline row: date · reading time · tags
+│   ├── .prose
+│   └── footer
+│       ├── hairline
+│       └── row: t-label Thanks for reading. · outline pill More writing
+└── aside: On this page (xl+)
 ```
 
 The title is the largest thing on the page. The summary is the second. The
@@ -503,6 +511,7 @@ native, and the title has the right weight.
 | `app/components/SiteFooter.tsx` | Rewrite |
 | `app/components/PostList.tsx` | Rewrite |
 | `app/components/SkipLink.tsx` | New |
+| `app/components/TableOfContents.tsx` | Sticky right-rail contents and scroll spy |
 | `app/components/PillLink.tsx` | New |
 | `app/components/ErrorState.tsx` | New |
 | `app/routes/home.tsx` | Rewrite |
@@ -537,6 +546,7 @@ native, and the title has the right weight.
 - [ ] `og:title`, `og:description`, `og:image`, and `twitter:card` on every page.
 - [ ] Syntax highlighting produces token spans for the registered languages.
 - [ ] No bespoke CSS selectors remain; component styling is Tailwind utilities.
+- [ ] The `On this page` rail appears at `xl`, stays sticky, and tracks the active heading.
 - [ ] `npm run typecheck` and `npm run build` pass.
 
 ---

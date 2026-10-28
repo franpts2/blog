@@ -1,5 +1,10 @@
 import { splitFrontmatter } from './frontmatter';
-import { markdownToHtml, readingTime } from './markdown';
+import {
+	extractHeadings,
+	markdownToHtml,
+	readingTime,
+	type Heading
+} from './markdown';
 
 export type PostMeta = {
 	slug: string;
@@ -11,7 +16,10 @@ export type PostMeta = {
 	readingTime: number;
 };
 
-export type Post = PostMeta & { html: string };
+export type Post = PostMeta & {
+	html: string;
+	headings: Heading[];
+};
 
 /**
  * Every post is inlined into the build as a raw string by Vite. There is no
@@ -69,7 +77,8 @@ export async function getPost(slug: string): Promise<Post | undefined> {
 	const { meta, body } = parse(path, raw);
 	if (meta.draft && !import.meta.env.DEV) return undefined;
 
-	return { ...meta, html: await markdownToHtml(body) };
+	const html = await markdownToHtml(body);
+	return { ...meta, html, headings: extractHeadings(html) };
 }
 
 /** Stable across locales and timezones: the frontmatter date is a plain day. */
