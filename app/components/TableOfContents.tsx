@@ -80,7 +80,7 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
 	};
 
 	return (
-		<aside className="absolute inset-y-0 left-[calc(50%_+_22rem_+_2rem)] hidden w-56 xl:block">
+		<aside className="absolute inset-y-0 left-[min(calc(50%_+_22rem_+_4rem),calc(100%_-_16rem))] hidden w-56 xl:block">
 			<div className="h-full pt-[clamp(2rem,5vw,4rem)]">
 				<nav className="sticky top-[calc(5rem_+_2rem)]" aria-label="On this page">
 					<p className={`${labelType} mb-5`}>On this page</p>
