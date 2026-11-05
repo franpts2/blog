@@ -1,44 +1,86 @@
-# blog.franciscapt.dev
+# Francisca Portugal - Writing
 
-Essays about building small products — the constraints you find after you announce,
-the rewrites they force, and the parts of shipping nobody blogs about.
+<div align="left">
+	<img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React"/>
+	<img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript"/>
+	<img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS"/>
+	<img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=FFD62E" alt="Vite"/>
+	<img src="https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=reactrouter&logoColor=white" alt="React Router"/>
+	<img src="https://img.shields.io/badge/Cloudflare_Workers-F38020?style=for-the-badge&logo=cloudflareworkers&logoColor=white" alt="Cloudflare Workers"/>
+</div>
 
-Built with React Router, Vite, Tailwind CSS, and Cloudflare Workers. No CMS: posts
-are Markdown files in this repo, rendered at build time.
+## About
 
-See [PLAN.md](./docs/PLAN.md) for the architecture and roadmap (including the
-browser editor planned for Phase 2).
+Personal blog for essays about building small products: the constraints, the rewrites, and the parts of shipping nobody blogs about. Markdown is the source of truth; every published page is prerendered to static HTML and served from Cloudflare Workers.
 
-## Stack
+## Key Features
 
-- **React Router** (framework mode) — routing, loaders, prerendering
-- **Vite** — build, and `import.meta.glob` for inlining Markdown
-- **Tailwind CSS v4** — utilities, shared recipes, and arbitrary variants for Markdown prose
-- **unified / remark / rehype** — Markdown → HTML with syntax highlighting
-- **Cloudflare Workers** — static assets with a Worker for the sitemap and later APIs
+- Markdown-driven publishing with YAML frontmatter
+- Build-time Markdown to HTML pipeline with GFM and syntax highlighting
+- Prerendered pages with Open Graph, canonical, and article metadata
+- Sticky table of contents with active-section tracking
+- Reading time, tags, and draft support
+- Sitemap generated from the same post manifest
+- Responsive typography and accessible, print-friendly layouts
+- Fast static delivery through Cloudflare Workers
 
-## Project structure
+## Live Demo
+
+Live at: [https://blog.franciscapt.dev](https://blog.franciscapt.dev)
+
+## Technical Implementation
+
+**Tech Stack**
+
+- Framework: React 19 + React Router 8 (framework mode)
+- Language: TypeScript
+- Styling: Tailwind CSS v4
+- Build Tool: Vite
+- Markdown: unified / remark / rehype
+- Deployment: Cloudflare Workers + Wrangler
+
+**Folder Structure**
 
 ```
-app/
-├── routes/          Route modules: loader, meta, and page composition
-├── components/
-│   ├── layout/      Header, footer, skip link
-│   ├── post/        Post list, header, content, metadata, table of contents
-│   └── ui/          Small reusable pieces (links, titles, badges, errors)
-├── hooks/           Client-side behaviour with no markup
-├── lib/
-│   ├── content/     Frontmatter, Markdown, validation, post repository
-│   ├── config/      Site metadata
-│   ├── seo/         Meta tags and sitemap generation
-│   └── styles/      Tailwind class recipes by concern
-├── root.tsx         Document shell and error boundary
-├── routes.ts        Route manifest
-└── app.css          Tailwind theme tokens
-content/posts/       Markdown essays (the source of truth)
-workers/             Cloudflare Worker entry point
-docs/                Architecture and roadmap
+blog/
+├── app/
+│   ├── components/
+│   │   ├── layout/      ← Header, footer, skip link
+│   │   ├── post/        ← Post list, header, metadata, table of contents
+│   │   └── ui/          ← Reusable primitives
+│   ├── hooks/           ← Client-side behaviour
+│   ├── lib/
+│   │   ├── config/      ← Site metadata
+│   │   ├── content/     ← Frontmatter, Markdown pipeline, post repository
+│   │   ├── seo/         ← Metadata and sitemap helpers
+│   │   └── styles/      ← Tailwind class recipes
+│   ├── routes/          ← Route modules
+│   ├── root.tsx
+│   ├── routes.ts
+│   └── app.css
+├── content/
+│   └── posts/           ← Markdown essays (source of truth)
+├── docs/                ← Architecture and roadmap
+├── public/
+├── workers/             ← Cloudflare Worker entry point
+├── package.json
+├── tsconfig.json
+├── vite.config.ts
+└── README.md
 ```
+
+## Features Implemented
+
+- Responsive layout with Tailwind CSS
+- Markdown posts with frontmatter, summaries, tags, and drafts
+- Syntax highlighting for TypeScript, JavaScript, shell, SQL, YAML, and more
+- Sticky table of contents generated from h2/h3 headings
+- Reading time estimates and a newest-first archive
+- Per-post Open Graph, article metadata, and canonical URLs
+- XML sitemap generated from the post manifest
+- Custom 404 page and accessible focus states
+- Safe-area-aware, mobile-friendly layout
+- Print styles for essays
 
 ## Development
 
@@ -51,7 +93,7 @@ npm run preview    # build + preview the Worker locally
 npm run deploy     # build + wrangler deploy
 ```
 
-## Writing a post
+## Writing a Post
 
 1. Create `content/posts/<slug>.md`.
 
@@ -67,28 +109,15 @@ draft: false
 The body, in Markdown.
 ```
 
-2. `npm run dev` to preview. Drafts show up in development, never in production.
+2. Run `npm run dev` to preview. Drafts appear only in development.
 3. Commit and push. The build prerenders the new page.
 
-The filename becomes the URL: `/writing/<slug>`.
+The filename becomes the URL: `/writing/<slug>`. See [PLAN.md](./docs/PLAN.md) for architecture and roadmap.
 
-## Deploying
+## License
 
-The Worker is configured in `wrangler.jsonc` with the custom domain
-`blog.franciscapt.dev`.
+[MIT](./LICENSE) © Francisca Portugal
 
-```bash
-npm run deploy
-```
+---
 
-The first deploy creates the Worker and attaches the custom domain. `franciscapt.dev`
-must be a zone on the same Cloudflare account.
-
-For continuous deployment, connect the GitHub repo to a Workers/Pages project
-with build command `npm run build`.
-
-## Notes
-
-- Canonical URLs have no trailing slash (`assets.html_handling: "drop-trailing-slash"`).
-- Published pages are prerendered; `/sitemap.xml` is rendered by the Worker.
-- The Markdown HTML is trusted local content, so it is injected with `dangerouslySetInnerHTML`.
+_Writing by Francisca Portugal - Frontend Engineer_

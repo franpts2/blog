@@ -2,6 +2,26 @@
   "name": "franciscapt-blog",
   "private": true,
   "type": "module",
+  "description": "Personal blog about building small products, built with React Router, Vite, Tailwind CSS, and Cloudflare Workers.",
+  "author": "Francisca Portugal",
+  "license": "MIT",
+  "homepage": "https://blog.franciscapt.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/franpts2/blog.git"
+  },
+  "bugs": {
+    "url": "https://github.com/franpts2/blog/issues"
+  },
+  "keywords": [
+    "blog",
+    "react",
+    "react-router",
+    "typescript",
+    "tailwindcss",
+    "cloudflare-workers",
+    "markdown"
+  ],
   "scripts": {
     "build": "react-router build",
     "dev": "react-router dev",
