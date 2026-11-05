@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { parse as parseYaml } from 'yaml';
 import type { Config } from '@react-router/dev/config';
+import { splitFrontmatter } from './app/lib/content/frontmatter';
 
 const postsDir = path.join(process.cwd(), 'content/posts');
 
@@ -10,15 +10,19 @@ const postsDir = path.join(process.cwd(), 'content/posts');
  * build, before the app bundle exists. Drafts are skipped: prerendering a
  * draft would turn its 404 loader into a failed build.
  *
- * The frontmatter parse is repeated (instead of importing app code) so this
- * file stays in the Node TypeScript project.
+ * `splitFrontmatter` is shared with the app so the build config and the
+ * runtime cannot drift apart.
  */
 function isPublished(file: string): boolean {
 	const raw = fs.readFileSync(path.join(postsDir, file), 'utf8');
-	const match = /^---\r?\n([\s\S]*?)\r?\n---/.exec(raw);
-	if (!match) return true;
-	const data = parseYaml(match[1]);
-	return !(data && typeof data === 'object' && (data as { draft?: unknown }).draft === true);
+
+	try {
+		const { data } = splitFrontmatter(raw, file);
+		return data.draft !== true;
+	} catch {
+		// Let the app surface the real validation error when it renders the post.
+		return true;
+	}
 }
 
 function publishedPostSlugs(): string[] {

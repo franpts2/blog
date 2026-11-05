@@ -1,11 +1,5 @@
-import {
-	containerWide,
-	focusRing,
-	labelType,
-	linkUnderline,
-	touch
-} from '~/lib/styles';
-import { site } from '~/lib/site';
+import { site } from '~/lib/config/site';
+import { containerWide, focusRing, labelType, linkUnderline, touch } from '~/lib/styles';
 
 export function SiteFooter() {
 	const year = new Date().getFullYear();
@@ -18,23 +12,21 @@ export function SiteFooter() {
 					© {year} {site.author.name}
 				</p>
 
-				<nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted" aria-label="Elsewhere">
-					<a
-						href={site.links.home}
-						className={footerLink}
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						franciscapt.dev
-					</a>
-					<a
-						href={site.links.github}
-						className={footerLink}
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						github
-					</a>
+				<nav
+					className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted"
+					aria-label="Elsewhere"
+				>
+					{site.elsewhere.map((link) => (
+						<a
+							key={link.href}
+							href={link.href}
+							className={footerLink}
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							{link.label}
+						</a>
+					))}
 				</nav>
 
 				<p className={labelType}>Have a great day! :D</p>

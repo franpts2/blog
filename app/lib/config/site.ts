@@ -4,6 +4,7 @@
  */
 export const site = {
 	name: 'Francisca Portugal',
+	shortName: 'blog.f.pt',
 	title: 'Francisca Portugal — Writing',
 	description:
 		'Essays about building small products: the constraints, the rewrites, and the parts of shipping nobody blogs about.',
@@ -11,8 +12,8 @@ export const site = {
 	author: {
 		name: 'Francisca Portugal'
 	},
-	links: {
-		home: 'https://franciscapt.dev',
-		github: 'https://github.com/franpts2'
-	}
+	elsewhere: [
+		{ label: 'franciscapt.dev', href: 'https://franciscapt.dev' },
+		{ label: 'github', href: 'https://github.com/franpts2' }
+	]
 } as const;

@@ -43,11 +43,12 @@ No database in v1. Posts are files.
 content/posts/*.md
       │  import.meta.glob('?raw')   ← Vite inlines every file at build time
       ▼
-app/lib/frontmatter.ts               ← split `---` YAML from body
-app/lib/markdown.ts                  ← remark-parse → gfm → rehype → highlight → HTML
+app/lib/content/frontmatter.ts       ← split `---` YAML from body
+app/lib/content/markdown.ts          ← remark-parse → gfm → rehype → highlight → HTML
       │
       ▼
-app/lib/posts.ts                     ← manifest: meta, summary, tags, reading time
+app/lib/content/parsePost.ts         ← validate frontmatter, derive meta + reading time
+app/lib/content/posts.ts             ← repository: list, filter, sort, load one post
       │
       ├── /                    list of essays
       ├── /writing             all essays

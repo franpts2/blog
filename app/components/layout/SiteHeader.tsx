@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
+import { site } from '~/lib/config/site';
 import { containerWide, focusRing, touch } from '~/lib/styles';
-import { site } from '~/lib/site';
 
 export function SiteHeader() {
 	return (
@@ -12,7 +12,7 @@ export function SiteHeader() {
 						className={`font-display text-lg font-semibold tracking-tight text-ink hover:text-accent-ink ${touch} ${focusRing}`}
 						aria-label={`${site.name}, writing home`}
 					>
-						blog.f.pt
+						{site.shortName}
 					</Link>
 				</div>
 			</div>

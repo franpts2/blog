@@ -1,38 +1,4 @@
 /**
- * Shared Tailwind class recipes.
- *
- * Everything visual lives here as utilities so components stay plain JSX and
- * app.css stays a Tailwind theme file. The prose recipe targets the HTML that
- * comes out of the Markdown pipeline, which cannot carry utility classes of
- * its own.
- */
-
-export const containerWide =
-	'mx-auto w-[min(92vw,72rem)] max-[30rem]:w-[calc(100%_-_2rem)]';
-
-export const containerProse =
-	'mx-auto w-[min(92vw,44rem)] max-[30rem]:w-[calc(100%_-_2rem)]';
-
-
-export const displayType =
-	'font-display font-semibold tracking-[-0.03em] text-balance break-words';
-
-export const labelBase =
-	'font-mono text-[0.7rem] font-medium uppercase leading-[1.4] tracking-[0.08em]';
-
-export const labelType = `${labelBase} text-faint`;
-
-export const bodyType = 'text-[clamp(1rem,1.1vw,1.15rem)] leading-[1.65] text-muted';
-
-export const focusRing =
-	'focus-visible:[outline:2px_solid_var(--color-accent)] focus-visible:outline-offset-3';
-
-export const touch = 'touch-manipulation';
-
-export const linkUnderline =
-	'relative inline-block after:absolute after:inset-x-0 after:-bottom-[0.1em] after:h-[1.5px] after:origin-right after:scale-x-0 after:bg-current after:transition-transform after:duration-200 after:ease-out-expo hover:after:origin-left hover:after:scale-x-100 motion-reduce:after:transition-none pointer-coarse:underline pointer-coarse:decoration-line pointer-coarse:underline-offset-[3px]';
-
-/**
  * Markdown output cannot receive utilities, so the wrapper styles its
  * descendants with arbitrary variants. Syntax tokens get the same treatment.
  */
