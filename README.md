@@ -6,8 +6,8 @@ the rewrites they force, and the parts of shipping nobody blogs about.
 Built with React Router, Vite, Tailwind CSS, and Cloudflare Workers. No CMS: posts
 are Markdown files in this repo, rendered at build time.
 
-See [DESIGN.md](./DESIGN.md) for the visual identity and [PLAN.md](./PLAN.md) for
-the architecture and roadmap (including the browser editor planned for Phase 2).
+See [PLAN.md](./docs/PLAN.md) for the architecture and roadmap (including the
+browser editor planned for Phase 2).
 
 ## Stack
 
@@ -16,6 +16,29 @@ the architecture and roadmap (including the browser editor planned for Phase 2).
 - **Tailwind CSS v4** — utilities, shared recipes, and arbitrary variants for Markdown prose
 - **unified / remark / rehype** — Markdown → HTML with syntax highlighting
 - **Cloudflare Workers** — static assets with a Worker for the sitemap and later APIs
+
+## Project structure
+
+```
+app/
+├── routes/          Route modules: loader, meta, and page composition
+├── components/
+│   ├── layout/      Header, footer, skip link
+│   ├── post/        Post list, header, content, metadata, table of contents
+│   └── ui/          Small reusable pieces (links, titles, badges, errors)
+├── hooks/           Client-side behaviour with no markup
+├── lib/
+│   ├── content/     Frontmatter, Markdown, validation, post repository
+│   ├── config/      Site metadata
+│   ├── seo/         Meta tags and sitemap generation
+│   └── styles/      Tailwind class recipes by concern
+├── root.tsx         Document shell and error boundary
+├── routes.ts        Route manifest
+└── app.css          Tailwind theme tokens
+content/posts/       Markdown essays (the source of truth)
+workers/             Cloudflare Worker entry point
+docs/                Architecture and roadmap
+```
 
 ## Development
 
