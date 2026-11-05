@@ -15,6 +15,7 @@ import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
+import type { Heading } from './types';
 
 /**
  * Markdown → HTML.
@@ -60,12 +61,6 @@ export async function markdownToHtml(source: string): Promise<string> {
 
 	return String(file);
 }
-
-export type Heading = {
-	id: string;
-	text: string;
-	level: 2 | 3;
-};
 
 const HEADING_PATTERN = /<h([23])\b[^>]*\bid="([^"]+)"[^>]*>([\s\S]*?)<\/h\1>/g;
 

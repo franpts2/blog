@@ -8,11 +8,13 @@ import {
 } from 'react-router';
 
 import type { Route } from './+types/root';
-import { ErrorState } from './components/ErrorState';
-import { SiteFooter } from './components/SiteFooter';
-import { SiteHeader } from './components/SiteHeader';
-import { SkipLink } from './components/SkipLink';
-import { site } from './lib/site';
+import { SiteFooter } from '~/components/layout/SiteFooter';
+import { SiteHeader } from '~/components/layout/SiteHeader';
+import { SkipLink } from '~/components/layout/SkipLink';
+import { ErrorState } from '~/components/ui/ErrorState';
+import { site } from '~/lib/config/site';
+import { getErrorCopy } from '~/lib/errors';
+import { defaultMeta, notFoundMeta } from '~/lib/seo/meta';
 import './app.css';
 
 export const links: Route.LinksFunction = () => [
@@ -31,20 +33,8 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export const meta: Route.MetaFunction = ({ error }) => {
-	if (isRouteErrorResponse(error) && error.status === 404) {
-		return [
-			{ title: `Page not found — ${site.name}` },
-			{ name: 'description', content: 'That page does not exist, or it moved.' },
-			{ name: 'robots', content: 'noindex' },
-			{ property: 'og:title', content: `Page not found — ${site.name}` },
-			{ property: 'og:description', content: 'That page does not exist, or it moved.' }
-		];
-	}
-
-	return [
-		{ title: site.title },
-		{ name: 'description', content: site.description }
-	];
+	if (isRouteErrorResponse(error) && error.status === 404) return notFoundMeta();
+	return defaultMeta;
 };
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -93,23 +83,5 @@ export default function App() {
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-	let label = 'Error';
-	let title = 'Something went wrong';
-	let message = 'An unexpected error occurred.';
-
-	if (isRouteErrorResponse(error)) {
-		if (error.status === 404) {
-			label = '404';
-			title = 'This page went missing';
-			message = 'The link may be old, or the essay moved.';
-		} else {
-			label = String(error.status);
-			title = 'Something went wrong';
-			message = error.statusText || message;
-		}
-	} else if (import.meta.env.DEV && error instanceof Error) {
-		message = error.message;
-	}
-
-	return <ErrorState label={label} title={title} message={message} />;
+	return <ErrorState {...getErrorCopy(error)} />;
 }
