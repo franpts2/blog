@@ -1,19 +1,26 @@
-# Francisca Portugal - Writing
+# Writing
 
-<div align="left">
-	<img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React"/>
-	<img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript"/>
-	<img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS"/>
-	<img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=FFD62E" alt="Vite"/>
-	<img src="https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=reactrouter&logoColor=white" alt="React Router"/>
-	<img src="https://img.shields.io/badge/Cloudflare_Workers-F38020?style=for-the-badge&logo=cloudflareworkers&logoColor=white" alt="Cloudflare Workers"/>
-</div>
+Essays about building small products: the constraints, the rewrites, and the parts of shipping nobody blogs about.
+
+<p align="left">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/MIT-green?style=flat-square" alt="MIT license"></a>
+</p>
+
+<p align="left">
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React">
+  <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
+  <img src="https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E" alt="Vite">
+  <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS">
+  <img src="https://img.shields.io/badge/Cloudflare-F38020?style=for-the-badge&logo=Cloudflare&logoColor=white" alt="Cloudflare">
+</p>
 
 ## About
 
 Personal blog for essays about building small products: the constraints, the rewrites, and the parts of shipping nobody blogs about. Markdown is the source of truth; every published page is prerendered to static HTML and served from Cloudflare Workers.
 
-## Key Features
+**Live:** [blog.franciscapt.dev](https://blog.franciscapt.dev)
+
+## Features
 
 - Markdown-driven publishing with YAML frontmatter
 - Build-time Markdown to HTML pipeline with GFM and syntax highlighting
@@ -24,20 +31,12 @@ Personal blog for essays about building small products: the constraints, the rew
 - Responsive typography and accessible, print-friendly layouts
 - Fast static delivery through Cloudflare Workers
 
-## Live Demo
+## How It Works
 
-Live at: [https://blog.franciscapt.dev](https://blog.franciscapt.dev)
-
-## Technical Implementation
-
-**Tech Stack**
-
-- Framework: React 19 + React Router 8 (framework mode)
-- Language: TypeScript
-- Styling: Tailwind CSS v4
-- Build Tool: Vite
-- Markdown: unified / remark / rehype
-- Deployment: Cloudflare Workers + Wrangler
+Markdown files under `content/posts/` are the source of truth. At build time the app parses
+the frontmatter, renders GitHub-flavoured Markdown with syntax highlighting, and prerenders
+each page. The result is served as static assets by a Cloudflare Worker, with a small Worker
+entry point for routing and metadata.
 
 **Folder Structure**
 
@@ -68,19 +67,6 @@ blog/
 ├── vite.config.ts
 └── README.md
 ```
-
-## Features Implemented
-
-- Responsive layout with Tailwind CSS
-- Markdown posts with frontmatter, summaries, tags, and drafts
-- Syntax highlighting for TypeScript, JavaScript, shell, SQL, YAML, and more
-- Sticky table of contents generated from h2/h3 headings
-- Reading time estimates and a newest-first archive
-- Per-post Open Graph, article metadata, and canonical URLs
-- XML sitemap generated from the post manifest
-- Custom 404 page and accessible focus states
-- Safe-area-aware, mobile-friendly layout
-- Print styles for essays
 
 ## Development
 
@@ -120,4 +106,4 @@ The filename becomes the URL: `/writing/<slug>`. See [PLAN.md](./docs/PLAN.md) f
 
 ---
 
-_Writing by Francisca Portugal - Frontend Engineer_
+_Writing — essays on building small things._
