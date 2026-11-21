@@ -14,6 +14,8 @@ Essays about building small products: the constraints, the rewrites, and the par
   <img src="https://img.shields.io/badge/Cloudflare-F38020?style=for-the-badge&logo=Cloudflare&logoColor=white" alt="Cloudflare">
 </p>
 
+> **Status:** work in progress — the site, the archive, and the first essays are still being built.
+
 ## About
 
 Personal blog for essays about building small products: the constraints, the rewrites, and the parts of shipping nobody blogs about. Markdown is the source of truth; every published page is prerendered to static HTML and served from Cloudflare Workers.
